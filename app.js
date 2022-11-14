@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
 app.get('/', (req, res)=>{
-    res.status(200).send('hello world');
+    res.status(200).send('hello ' +  req.query.query + ' world');
 })
 app.use((req, res)=>{
     res.status(404).send('Not found');
