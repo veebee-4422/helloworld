@@ -8,11 +8,11 @@ var app = express();
 app.set('trust proxy', true);
 app.use(responseTime((req, res, time) => {
     let url = req.protocol + '://' + req.get('host') + req.originalUrl;
-    let userip = req.socket.remoteAddress;
+    let userip = req.headers['x-forwarded-for'];
     let date = new Date();
     let timestamp = date.getFullYear()+"/"+(date.getMonth()+1) +"/"+ date.getDate() +"/"+ date.getHours() +":"+ date.getMinutes() +":"+ date.getSeconds() +":"+ date.getMilliseconds();
     let latency = Number(time.toFixed(3));
-    log_file.write(`{${url} , ${userip}, ${timestamp}, ${latency}}\n`);
+    log_file.write(`{${url}, ${userip}, ${timestamp}, ${latency}}\n`);
   }));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
